@@ -12,7 +12,7 @@ $value = '20173-1';
  * Caso falhe, irá exibir a mensagem da exceção.
  */
 try {
-    $a = new Bank('0635', '0020173-1');
+    $a = new Bank('2876', '1247498-9');
 
         //echo $a->validate();
     //}
@@ -30,7 +30,7 @@ catch (Exception $e) {
         echo $e->getMessage();
 }
 
-echo $a->toFormatted(). '\n';
+echo $a->toFormatted(). "\n";
 echo $a->toInteger();
 
 /**

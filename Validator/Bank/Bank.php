@@ -74,7 +74,7 @@ Class Bank extends Validator {
         }
         $mod = 11 - ($soma % 11);
         if ($mod == 10 or $mod == 11) {
-            if ($this->numeroConta == 0) {
+            if ($this->numeroConta[$cont] == 0) {
                 return true;
             }
         }

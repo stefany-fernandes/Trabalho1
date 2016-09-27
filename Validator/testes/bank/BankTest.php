@@ -16,7 +16,7 @@ class BankTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $agencia
      * @param string $conta
-     * @dataProvider providerTest
+     * @dataProvider providerTestToIntegerAndToFormatted
      *
      */
     public function testConstructorValidAgencia(string $agencia, string $conta){
@@ -28,13 +28,13 @@ class BankTest extends \PHPUnit_Framework_TestCase
      * @param string $agencia
      * @param string $conta
      *
-     * @dataProvider providerTest
+     * @dataProvider providerTestErro
      *
      */
 
     public function testConstructorInvalidAgencia(string $agencia, string $conta) {
         $bankObj2 = new Bank ($agencia, $conta);
-        $this->assertEquals($bankObj2->validateAg(), true);
+        $this->assertEquals($bankObj2->validateAg(), 0);
     }
 
     /**
@@ -56,7 +56,7 @@ class BankTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerTestErro
      */
 
-    public function testeContaInvalida (string $agencia, string $conta){
+    public function testContaInvalida (string $agencia, string $conta){
         $bankObj4 = new Bank($agencia, $conta);
         $this->assertEquals($bankObj4->validateC(), false);
 
@@ -70,7 +70,7 @@ class BankTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerTestErro
      */
 
-    public function testeAgenciaInvalida(string $agencia, string $conta){
+    public function testAgenciaInvalida(string $agencia, string $conta){
         $bankObj5 = new Bank ($agencia, $conta);
         $this->assertEquals($bankObj5->validateAg(), false);
     }
@@ -82,20 +82,36 @@ class BankTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerTest
      */
 
-    public function TesteFinalContaAgValidas(string $agencia, string $conta) {
+    public function testFinalContaAgValidas(string $agencia, string $conta) {
         $bankObj6 = new Bank ($agencia, $conta);
         $this->assertEquals($bankObj6->validate(), true);
     }
+
 
     /**
      * @param string $agencia
      * @param string $conta
      *
-     * @dataProvider providerTest
+     * @dataProvider providerTestErro
+     */
+
+    public function testFinalContaAgInvalidas (string $agencia, string $conta) {
+        $bankObj9 = new Bank ($agencia, $conta);
+        $this->assertEquals($bankObj9->validate(), false);
+    }
+
+
+
+    /**
+     * @param string $agencia
+     * @param string $conta
+     *
+     * @dataProvider providerTestToIntegerAndToFormatted
      */
     public function testToInteger(string $agencia, string $conta){
-        $bankObj7 = new Bank($agencia, $conta);
-        $this->assertEquals($bankObj7->toInteger(), 63500201731);
+        $bankObj8 = new Bank($agencia, $conta);
+        $this->assertEquals($bankObj8->toInteger(), 63500201731);
+
     }
 
     /**
@@ -103,16 +119,41 @@ class BankTest extends \PHPUnit_Framework_TestCase
      */
 
 
+    /**
+     *
+     * As contas fornecidas por esse método são inválidas, portanto o validador DEVE retornar 0
+     *
+     * @return array
+     */
+
     public function providerTestErro() {
         return [
-            ['0633', '0020179-1'],
+            ['0633', '9920000-1'],
+            ['0635', '98000173-0'],
+            ['3345', '12349952-3'],
+            ['1333', '8982233-0'],
+        ];
+    }
 
+    /**
+     * Todas as contas aqui fornecidas são válidas, portanto o validador deve retornar 1
+     *
+     * @return array
+     *
+     */
+
+    public function providerTestToIntegerAndToFormatted() {
+        return [
+            ['0635', '0020173-1']
         ];
     }
 
     public function providerTest() {
         return [
           ['0635', '0020173-1'],
+          ['3345', '0344657-3'],
+
+
         ];
     }
 
