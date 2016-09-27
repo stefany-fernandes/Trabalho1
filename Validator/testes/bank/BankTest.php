@@ -10,7 +10,7 @@ namespace Validator\testes\bank;
 
 use Validator\Bank\Bank;
 
-
+//
 class BankTest extends \PHPUnit_Framework_TestCase
 {
     /**
