@@ -24,6 +24,13 @@ class BankTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($bankObj1->toFormatted(), "$agencia $conta");
     }
 
+
+    public function testExcecao () {
+        $this->assertEquals( $bankOnj = new Bank('635', '20173'), "A agência deve ter quatro números e a conta deve conter 8 (com o dígito).");
+    }
+
+
+
     /**
      * @param string $agencia
      * @param string $conta
@@ -152,7 +159,7 @@ class BankTest extends \PHPUnit_Framework_TestCase
         return [
           ['0635', '0020173-1'],
           ['3345', '0344657-3'],
-
+          ['0000', '0000000-0'] // apenas para testar se isso é considerado uma conta válida. Nenhuma outra utilidade.
 
         ];
     }

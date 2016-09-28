@@ -30,6 +30,11 @@ catch (Exception $e) {
         echo $e->getMessage();
 }
 
+$bankObj = new Bank ('0000', '0000000-0');
+$bankObj->validateC();
+
+
+
 echo $a->toFormatted(). "\n";
 echo $a->toInteger();
 
