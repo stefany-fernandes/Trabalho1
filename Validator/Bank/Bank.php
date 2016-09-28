@@ -24,12 +24,16 @@ Class Bank extends Validator {
         $this->agencia=$agencia;
         $this->numeroConta=str_replace('P', '0', $this->numeroConta);
         $this->numeroConta= (string)str_replace('-', '', $this->numeroConta);
-        if (strlen($agencia) != 4 or strlen ($numeroConta) < 8) {
-            throw new \Exception("A agência deve ter quatro números e a conta deve conter 8 (com o dígito).");
+        $this->agencia=str_replace('P', '0', $this->agencia);
+        $this->agencia= (string)str_replace('-', '', $this->agencia);
+        if (strlen($agencia) != 5 or strlen ($numeroConta) < 8) {
+            throw new \Exception("A agência deve ter cinco números(com o dígito) e a conta deve conter 8 (também com o dígito).");
         }
         $value = (float) ($this->agencia . $this->numeroConta);
 
         parent::__construct($value);
+        
+        $this->agencia = str_split($this->agencia);
         $this->numeroConta=str_split($this->numeroConta);
 
     }
@@ -41,10 +45,20 @@ Class Bank extends Validator {
      */
 
     public function toFormatted():string {
+        $x = count($this->agencia);
+        
+        foreach ($this->agencia as $y) {
+
+            if ($x == 1) {
+                $format = $format . '-';
+            }
+            $format = $format . $y;
+            $x--;
+        }
+        
+        $format = $format . ' ';
         $x = count($this->numeroConta);
-
-        $format = $this->agencia . ' ';
-
+        
         foreach ($this->numeroConta as $y) {
 
             if ($x == 1) {
@@ -53,6 +67,7 @@ Class Bank extends Validator {
             $format = $format . $y;
             $x--;
         }
+        
 
         return $format;
     }
@@ -64,7 +79,6 @@ Class Bank extends Validator {
      * @return bool
      */
     public function validateAg():bool {
-        $agencia = str_split($this->agencia);
         $valores = array (5, 4, 3, 2);
         $soma = 0;
         $cont = 0;
@@ -74,12 +88,12 @@ Class Bank extends Validator {
         }
         $mod = 11 - ($soma % 11);
         if ($mod == 10 or $mod == 11) {
-            if ($this->numeroConta[$cont] == 0) {
+            if ($this->agencia[$cont] == 0) {
                 return true;
             }
         }
         else {
-            if ($mod == $this->numeroConta[$cont]) {
+            if ($mod == $this->agencia[$cont]) {
                 return true;
             }
         }
@@ -93,7 +107,6 @@ Class Bank extends Validator {
      * @return bool
      */
     public function validateC():bool {
-
 
         $soma = 0;
         $contador = 0;
