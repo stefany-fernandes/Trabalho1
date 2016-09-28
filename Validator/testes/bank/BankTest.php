@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Stefany Fernandes
- * Date: 24/09/2016
- * Time: 19:36
- */
+
 
 namespace Validator\testes\bank;
 
@@ -13,23 +8,22 @@ use Validator\Bank\Bank;
 //
 class BankTest extends \PHPUnit_Framework_TestCase
 {
+
+
+    public function testExcecao() {
+        $bankOnj = new Bank('635', '20173');
+    }
+
+
     /**
      * @param string $agencia
      * @param string $conta
-     * @dataProvider providerTestToIntegerAndToFormatted
      *
      */
-    public function testConstructorValidAgencia(string $agencia, string $conta){
-        $bankObj1 = new Bank($agencia,$conta);
-        $this->assertEquals($bankObj1->toFormatted(), "$agencia $conta");
+    public function testConstructorValidAgencia(){
+        $bankObj1 = new Bank('06351', '0020173-1');
+        $this->assertEquals($bankObj1->toFormatted(), '0635-1 0020173-1');
     }
-
-
-    public function testExcecao () {
-        $this->assertEquals( $bankOnj = new Bank('635', '20173'), "A agência deve ter quatro números e a conta deve conter 8 (com o dígito).");
-    }
-
-
 
     /**
      * @param string $agencia
@@ -117,7 +111,7 @@ class BankTest extends \PHPUnit_Framework_TestCase
      */
     public function testToInteger(string $agencia, string $conta){
         $bankObj8 = new Bank($agencia, $conta);
-        $this->assertEquals($bankObj8->toInteger(), 63500201731);
+        $this->assertEquals($bankObj8->toInteger(), 635100201731);
 
     }
 
@@ -135,10 +129,10 @@ class BankTest extends \PHPUnit_Framework_TestCase
 
     public function providerTestErro() {
         return [
-            ['0633', '9920000-1'],
-            ['0635', '98000173-0'],
-            ['3345', '12349952-3'],
-            ['1333', '8982233-0'],
+            ['06332', '9920000-1'],
+            ['06353', '98000173-0'],
+            ['33450', '12349952-3'],
+            ['13330', '8982233-0'],
         ];
     }
 
@@ -151,15 +145,15 @@ class BankTest extends \PHPUnit_Framework_TestCase
 
     public function providerTestToIntegerAndToFormatted() {
         return [
-            ['0635', '0020173-1']
+            ['06351', '0020173-1']
         ];
     }
 
     public function providerTest() {
         return [
-          ['0635', '0020173-1'],
-          ['3345', '0344657-3'],
-          ['0000', '0000000-0'] // apenas para testar se isso é considerado uma conta válida. Nenhuma outra utilidade.
+          ['06351', '0020173-1'],
+          ['04863', '0061651-6'],
+          ['00000', '0000000-P'] // apenas para testar se isso é considerado uma conta válida. Nenhuma outra utilidade.
 
         ];
     }
