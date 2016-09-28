@@ -16,6 +16,9 @@ abstract Class Validator {
        $this->value=$value;
     }
 
+
+
+    
     /**
      * Esta função converte o dado para inteiro.
      * @return int
