@@ -18,7 +18,7 @@ abstract Class Validator {
 
 
 
-    
+
     /**
      * Esta função converte o dado para inteiro.
      * @return int
