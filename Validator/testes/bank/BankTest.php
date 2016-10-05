@@ -9,19 +9,13 @@ use Validator\Bank\Bank;
 class BankTest extends \PHPUnit_Framework_TestCase
 {
 
-
-    public function testExcecao() {
-        $bankOnj = new Bank('635', '20173');
-    }
-
-
     /**
      * @param string $agencia
      * @param string $conta
      *
      */
     public function testConstructorValidAgencia(){
-        $bankObj1 = new Bank('06351', '0020173-1');
+        $bankObj1 = new Bank('0635-1', '0020173-1');
         $this->assertEquals($bankObj1->toFormatted(), '0635-1 0020173-1');
     }
 
@@ -129,10 +123,10 @@ class BankTest extends \PHPUnit_Framework_TestCase
 
     public function providerTestErro() {
         return [
-            ['06332', '9920000-1'],
-            ['06353', '98000173-0'],
-            ['33450', '12349952-3'],
-            ['13330', '8982233-0'],
+            ['633-2', '992022000-1'],
+            ['635-3', '9800173-0'],
+            ['3345-0','9149952-3'],
+            ['1333-0','8982233-0'],
         ];
     }
 
@@ -151,9 +145,9 @@ class BankTest extends \PHPUnit_Framework_TestCase
 
     public function providerTest() {
         return [
-          ['06351', '0020173-1'],
-          ['04863', '0061651-6'],
-          ['00000', '0000000-P'] // apenas para testar se isso é considerado uma conta válida. Nenhuma outra utilidade.
+          ['635-1', '0020173-1'],
+          ['486-3', '0061651-6'],
+          ['0000-0', '0000000-P'] // apenas para testar se isso é considerado uma conta válida. Nenhuma outra utilidade.
 
         ];
     }

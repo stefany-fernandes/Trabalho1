@@ -8,7 +8,25 @@ namespace Validator\Bank;
 
 use Validator\Validator;
 
+
+/**
+ *
+ * Classe validadora de contas Bradesco
+ *
+ * Class Bank
+ * @package Validator\Bank
+ *
+ */
+
 Class Bank extends Validator {
+
+    /**
+     *
+     * $agencia: onde será salvo o numero da agencia, como vetor
+     * $numeroConta: onde será salvo o numero da conta, como vetor
+     *
+     * @var array
+     */
     private $agencia;
     private $numeroConta;
 
@@ -26,9 +44,6 @@ Class Bank extends Validator {
         $this->numeroConta= (string)str_replace('-', '', $this->numeroConta);
         $this->agencia=str_replace('P', '0', $this->agencia);
         $this->agencia= (string)str_replace('-', '', $this->agencia);
-        if (strlen($agencia) != 5 or strlen ($numeroConta) < 8) {
-            throw new \Exception("A agência deve ter cinco números(com o dígito) e a conta deve conter 8 (também com o dígito).");
-        }
         $value = (float) ($this->agencia . $this->numeroConta);
 
         parent::__construct($value);
@@ -72,6 +87,22 @@ Class Bank extends Validator {
         return $format;
     }
 
+
+    /**
+     *
+     * Metodo que verifica se a quantidade de numeros digitadas foi superior ao numero máximo de dígitos
+     *
+     * @return bool
+     */
+
+    private function verificaTamanho():bool{
+        if (count($this->numeroConta) > 8 or count($this->agencia) > 5){
+            return false;
+        }
+        return true;
+    }
+
+
     /**
      *
      * Verifica se a agência é valida, de acordo com o dígito verificador
@@ -79,22 +110,32 @@ Class Bank extends Validator {
      * @return bool
      */
     public function validateAg():bool {
-        $valores = array (5, 4, 3, 2);
-        $soma = 0;
-        $cont = 0;
-        foreach ($valores as $y) {
-            $soma = $soma + ($y * (int)$this->agencia[$cont]);
-            $cont++;
-        }
-        $mod = 11 - ($soma % 11);
-        if ($mod == 10 or $mod == 11) {
-            if ($this->agencia[$cont] == 0) {
-                return true;
+
+        if ($this->verificaTamanho()) {
+
+            $valores = array(5, 4, 3, 2);
+            $soma = 0;
+            $cont = 0;
+
+            $posic = count($this->agencia);
+
+            $inicio = 5 - $posic;
+
+            while ($inicio < 4) {
+
+                $soma = $soma + ((int)$this->agencia[$cont] * $valores[$inicio]);
+                $inicio++;
+                $cont++;
             }
-        }
-        else {
-            if ($mod == $this->agencia[$cont]) {
-                return true;
+            $mod = 11 - ($soma % 11);
+            if ($mod == 10 or $mod == 11) {
+                if ($this->agencia[$cont] == 0) {
+                    return true;
+                }
+            } else {
+                if ($mod == $this->agencia[$cont]) {
+                    return true;
+                }
             }
         }
         return false;
@@ -106,34 +147,41 @@ Class Bank extends Validator {
      *
      * @return bool
      */
-    public function validateC():bool {
+    public function validateC():bool
+    {
 
-        $soma = 0;
-        $contador = 0;
+        if ($this->verificaTamanho()) {
+            $soma = 0;
+            $contador = 0;
 
-        $pesos = array(2, 7, 6, 5, 4, 3, 2);
-        foreach ($pesos as $value) {
-            $soma = $soma + ($value * $this->numeroConta[$contador]);
-            $contador++;
-        }
-        $mod = $soma % 11;
-        if ($mod == 0 || $mod == 1) {
-            if ($this->numeroConta[$contador] == 0) {
-                return true;
+
+            $posic = 8 - count($this->numeroConta);
+
+            $pesos = array(2, 7, 6, 5, 4, 3, 2);
+            while ($posic < 7) {
+                $soma = $soma + ($pesos[$posic] * $this->numeroConta[$contador]);
+                $contador++;
+                $posic++;
+            }
+            $mod = $soma % 11;
+            if ($mod == 0 || $mod == 1) {
+                if ($this->numeroConta[$contador] == 0) {
+                    return true;
+                }
+            } else {
+                $mod = 11 - $mod;
+                if ($mod == $this->numeroConta[$contador]) {
+                    return true;
+                }
             }
         }
-        else {
-            $mod = 11 - $mod;
-            if ($mod == $this->numeroConta[$contador]) {
-                return true;
-            }
-        }
-        return false;
+            return false;
     }
+
 
     /**
      *
-     * Verifica se o conjunto conta-agência é valido, de acordo com o digito verificador
+     * Verifica se o conjunto conta-agência é valido, de acordo com os digitos verificadores
      *
      * @return bool
      */

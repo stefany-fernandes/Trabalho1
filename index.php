@@ -12,7 +12,7 @@ $value = '20173-1';
  * Caso falhe, irá exibir a mensagem da exceção.
  */
 try {
-    $a = new Bank('2876', '1247498-9');
+    $a = new Bank('635-1', '20173-1');
 
         //echo $a->validate();
     //}

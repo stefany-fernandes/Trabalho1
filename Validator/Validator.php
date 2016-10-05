@@ -5,6 +5,14 @@ declare(strict_types=1);
 
 namespace Validator;
 
+
+/**
+ *
+ * Classe mãe: possui metodos abstratos que serão desenvolvidos nas classes validadoras que extenderem ela.
+ * Class Validator
+ * @package Validator
+ */
+
 abstract Class Validator {
     protected $value;
 
@@ -15,9 +23,6 @@ abstract Class Validator {
     protected function __construct(float $value){
        $this->value=$value;
     }
-
-
-
 
     /**
      * Esta função converte o dado para inteiro.
