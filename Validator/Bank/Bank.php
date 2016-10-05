@@ -17,7 +17,6 @@ use Validator\Validator;
  * @package Validator\Bank
  *
  */
-
 Class Bank extends Validator {
 
     /**
@@ -58,7 +57,6 @@ Class Bank extends Validator {
      * Converte o dado para string adicionando o ' - ' e separando a agencia e a conta.
      * @return string
      */
-
     public function toFormatted():string {
         $x = count($this->agencia);
         $format = '';
@@ -94,7 +92,6 @@ Class Bank extends Validator {
      *
      * @return bool
      */
-
     private function verificaTamanho():bool{
         if (count($this->numeroConta) > 8 or count($this->agencia) > 5){
             return false;
@@ -185,7 +182,6 @@ Class Bank extends Validator {
      *
      * @return bool
      */
-
     public function validate():bool {
         if ($this->validateAg() == 1 and $this->validateC() == 1) {
             return true;

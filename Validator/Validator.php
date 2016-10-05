@@ -14,6 +14,11 @@ namespace Validator;
  */
 
 abstract Class Validator {
+
+    /**
+     * Valor que ficará salvo a agência e a conta(apenas numerais)
+     * @var float
+     */
     protected $value;
 
     /**
@@ -35,14 +40,15 @@ abstract Class Validator {
     }
 
     /**
+     * Esse método será implementado por todas as classes filhas.
      * @return bool
      */
     public abstract function validate():bool;
 
     /**
+     * Esse método será implementado por todas as classes filhas.
      * @return string
      */
-
     public abstract function toFormatted():string;
 }
 
